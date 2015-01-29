@@ -6,8 +6,7 @@
   <title></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="bower_components/reset-css/reset.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="main.css">
   <style>
     #content {
       width: 300px;
@@ -49,12 +48,14 @@
 </div>
 <!-- End -->
 
-<script src="js/main.js"></script>
+<script src="supermodal.js"></script>
+
 <script>
-  var modal = new Modal(document.getElementById('the-modal'));
-  addEventListener(document.getElementById('open-modal'), 'click', function () {
-    modal.show();
-  });
+var Modal = require('supermodal');
+var modal = new Modal(document.getElementById('the-modal'), false);
+document.getElementById('open-modal').addEventListener('click', function () {
+  modal.show();
+});
 </script>
 </body>
 </html>
