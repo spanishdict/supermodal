@@ -18,7 +18,7 @@ A super modal UI.
 ```
 
 ```javascript
-var modal = new Modal(document.getElementById('the-modal'), isMobile);
+var modal = new Modal(document.getElementById('the-modal'), isNotMobile);
 
 document.getElementById('open-modal').addEventListener('click', function () {
   modal.show();

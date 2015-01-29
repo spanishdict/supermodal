@@ -8,6 +8,8 @@ MODAL_SHOW_CLA = 'o-modal-show',
 IS_MOBILE_HTML_CLA = 'is-mobile',
 NOT_MOBILE_HTML_CLA = 'is-not-mobile',
 
+slice = [].slice,
+
 addClass = (function () {
   if (document.documentElement.classList) {
     return function (el, className) {
@@ -97,8 +99,12 @@ getDocHeight = function () {
   );
 },
 
-Modal = function (rootElement, isMobile) {
-  this.isMobile = isMobile;
+Modal = function (rootElement, isNotMobile) {
+  if (isNotMobile) {
+    addClass(document.documentElement, 'is-not-mobile');
+  }
+
+  this.isMobile = !isNotMobile;
   this.root = rootElement;
   this.positioner = getElementsByClassName(this.root, POSITIONER_CLA)[0];
   this.onHideCallbacks = [];
@@ -135,8 +141,8 @@ Modal.prototype.hide = function () {
   removeClass(document.body, MODAL_SHOW_BODY_CLA);
   if (this.isMobile) {
     document.activeElement.blur();
-    var inputs = this.positioner.getElementsByTagName('input');
-    inputs = inputs.concat(this.positioner.getElementsByTagName('textarea'));
+    var inputs = slice.call(this.positioner.getElementsByTagName('input')); // Call slice to convert to array
+    inputs = inputs.concat(slice.call(this.positioner.getElementsByTagName('textarea')));
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].blur();
     }
