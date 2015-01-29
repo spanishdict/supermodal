@@ -1,0 +1,24 @@
+{
+  "name": "supermodal",
+  "version": "0.0.1",
+  "description": "A universal modal to remove the pain of modal on mobile.",
+  "main": "modal.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spanishdict/supermodal.git"
+  },
+  "keywords": [
+    "modal",
+    "mobile"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spanishdict/supermodal/issues"
+  },
+  "homepage": "https://github.com/spanishdict/supermodal",
+  "devDependencies": {}
+}
