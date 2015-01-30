@@ -5,20 +5,31 @@ A super modal UI.
 ## Markup
 
 ```html
-<div class="o-popin" id="the-modal">
-  <div class="o-popin-backdrop js-popin-backdrop"></div>
-  <div class="o-popin-positioner js-popin-positioner">
-    <!-- Can be anything, any size -->
+<div id="the-modal" class="supermodal-root">
+  <div class="supermodal-backdrop"></div>
+  <div class="supermodal-positioner">
+
+    <!-- Any custom content, any size -->
     <div id="content">
       <input type="text">
     </div>
-    <!-- End of customized content -->
+    <!-- END of Custom Content -->
+
+    <button class="supermodal-close">&times;</button>
   </div>
 </div>
 ```
 
 ```javascript
 var modal = new Modal(document.getElementById('the-modal'), isNotMobile);
+
+modal.onHide(function () {
+  alert('modal closed!');
+});
+
+modal.onHide(function () {
+  alert('modal closed again!');
+});
 
 document.getElementById('open-modal').addEventListener('click', function () {
   modal.show();

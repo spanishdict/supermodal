@@ -7,7 +7,6 @@ var watch = require('gulp-watch');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserSync = require('browser-sync');
-var reload = browserSync.reload;
 
 gulp.task('scss', function () {
   return gulp.src('./scss/*.scss')
@@ -41,12 +40,19 @@ gulp.task('dist', ['browserify', 'scss', 'html']);
 
 gulp.task('serve', ['dist'], function () {
   browserSync({
+    ghostMode: {
+      clicks: false,
+      form: false,
+      scroll: false
+    },
     notify: false,
     port: 9000,
     server: {
       baseDir: ['dist']
     }
   });
+
+  var reload = browserSync.reload;
 
   gulp.watch('demo/index.html', ['html', reload]);
   gulp.watch('scss/*.scss', ['scss', reload]);
