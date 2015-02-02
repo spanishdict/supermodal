@@ -4,6 +4,12 @@
   "description": "A universal modal to remove the pain of modal on mobile.",
   "main": "supermodal.js",
   "scripts": {
+    "scss": "node-sass scss/main.scss dist/main.css",
+    "browserify": "browserify -r ./supermodal.js:supermodal > dist/supermodal.js",
+    "html": "cp -v demo/index.html dist/index.html",
+    "dist": "npm run scss && npm run browserify && npm run html",
+    "watch": "onchange 'supermodal.js' 'demo/*.html' 'scss/*.scss' -- npm run dist",
+    "serve": "browser-sync start --server dist --files \"dist/*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,9 +29,7 @@
   "devDependencies": {
     "browser-sync": "^2.0.0-rc1",
     "browserify": "^8.1.1",
-    "gulp": "^3.8.10",
-    "gulp-sass": "^1.3.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0"
+    "node-sass": "^2.0.0-beta",
+    "onchange": "0.0.2"
   }
 }

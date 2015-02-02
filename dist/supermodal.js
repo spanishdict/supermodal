@@ -217,4 +217,4 @@ Modal.prototype.onHide = function (cb) {
 
 module.exports = Modal;
 
-},{}]},{},["supermodal"]);
+},{}]},{},[]);
