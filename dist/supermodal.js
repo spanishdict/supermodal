@@ -89,7 +89,7 @@ getElementsByClassName = (function () {
   };
 })(),
 
-addEventListener = (function () {
+listen = (function () {
   if (document.addEventListener) {
     return function (el, eventName, callback) {
       el.addEventListener(eventName, callback, false);
@@ -144,30 +144,30 @@ SuperModal = function (rootElement, opts) {
   var self = this;
 
   var backdrop = getElementsByClassName(this.root, BACKDROP_CLA)[0];
-  addEventListener(backdrop, 'click', function () {
+  listen(backdrop, 'click', function () {
     self.hide();
   });
 
   var closeBtn = getElementsByClassName(this.root, CLOSE_BTN_CLA)[0];
-  addEventListener(closeBtn, 'click', function () {
+  listen(closeBtn, 'click', function () {
     self.hide();
   });
 
   if (this.opts.isMobile) {
-    addEventListener(this.root, 'touchstart', function () {
+    listen(this.root, 'touchstart', function () {
       self.touching = true;
       self.clearTouchTimer();
     });
 
-    addEventListener(this.root, 'touchend', function () {
+    listen(this.root, 'touchend', function () {
       self.setTouchTimer();
     });
 
-    addEventListener(this.root, 'touchcancel', function () {
+    listen(this.root, 'touchcancel', function () {
       self.setTouchTimer();
     });
 
-    addEventListener(document, 'scroll', function () {
+    listen(document, 'scroll', function () {
       if (!self.isOpen) {
         return;
       }
