@@ -2,12 +2,11 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 'use strict';
 
 var TRIM_REGEX = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
-MODAL_CLA           = 'supermodal-root',
-MODAL_SHOW_CLA      = 'supermodal-show',
+MODAL_SHOW_CLA = 'supermodal-show',
 MODAL_BODY_SHOW_CLA = 'supermodal-body-show',
-BACKDROP_CLA        = 'supermodal-backdrop',
-POSITIONER_CLA      = 'supermodal-positioner',
-CLOSE_BTN_CLA       = 'supermodal-close',
+BACKDROP_CLA = 'supermodal-backdrop',
+POSITIONER_CLA = 'supermodal-positioner',
+CLOSE_BTN_CLA = 'supermodal-close',
 NOT_MOBILE_HTML_CLA = 'supermodal-not-mobile',
 
 _slice = Array.prototype.slice,
@@ -21,20 +20,19 @@ addClass = (function () {
     return function (el, className) {
       el.classList.add(className);
     };
-  } else {
-    return function (el, className) {
-      var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
-
-      if (cur.indexOf(name) < 0) {
-        cur += className;
-      }
-
-      var finalValue = trim(cur);
-      if (el.className !== finalValue) {
-        el.className = finalValue;
-      }
-    };
   }
+  return function (el, className) {
+    var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
+
+    if (cur.indexOf(name) < 0) {
+      cur += className;
+    }
+
+    var finalValue = trim(cur);
+    if (el.className !== finalValue) {
+      el.className = finalValue;
+    }
+  };
 })(),
 
 removeClass = (function () {
@@ -42,40 +40,38 @@ removeClass = (function () {
     return function (el, className) {
       el.classList.remove(className);
     };
-  } else {
-    return function (el, className) {
-      var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
-
-      while (cur.indexOf(name) > -1) {
-        cur = cur.replace(name, ' ');
-      }
-
-      var finalValue = trim(cur);
-      if (el.className !== finalValue) {
-        el.className = finalValue;
-      }
-    };
   }
+  return function (el, className) {
+    var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
+
+    while (cur.indexOf(name) > -1) {
+      cur = cur.replace(name, ' ');
+    }
+
+    var finalValue = trim(cur);
+    if (el.className !== finalValue) {
+      el.className = finalValue;
+    }
+  };
 })(),
 
 getElementsByClassName = (function () {
   if (document.getElementsByClassName) {
     return function (el, className) {
-      if (className == null) {
+      if (className === null && className === undefined) {
         className = el;
         el = document;
       }
       return el.getElementsByClassName(className);
     };
-  } else {
-    return function (el, className) {
-      if (className == null) {
-        className = el;
-        el = document;
-      }
-      return el.querySelectorAll('.' + className);
-    }
   }
+  return function (el, className) {
+    if (className === null && className === undefined) {
+      className = el;
+      el = document;
+    }
+    return el.querySelectorAll('.' + className);
+  };
 })(),
 
 addEventListener = (function () {
@@ -83,17 +79,17 @@ addEventListener = (function () {
     return function (el, eventName, callback) {
       el.addEventListener(eventName, callback, false);
     };
-  } else {
-    return function (el, eventName, callback) {
-      el.attachEvent('on' + eventName, function (event) {
-        return callback.apply(el, arguments);
-      });
-    };
   }
+  return function (el, eventName, callback) {
+    el.attachEvent('on' + eventName, function () {
+      return callback.apply(el, arguments);
+    });
+  };
 })(),
 
 getPageScrollTop = function () {
-  return ('pageYOffset' in window) ? window['pageYOffset'] : document.documentElement['scrollTop'];
+  return ('pageYOffset' in window) ?
+    window.pageYOffset : document.documentElement.scrollTop;
 },
 
 getDocHeight = function () {
@@ -110,13 +106,13 @@ SuperModal = function (rootElement, notMobile) {
     addClass(document.documentElement, NOT_MOBILE_HTML_CLA);
   }
 
-  this.root            = rootElement;
-  this.isMobile        = !notMobile;
-  this.positioner      = getElementsByClassName(this.root, POSITIONER_CLA)[0];
+  this.root = rootElement;
+  this.isMobile = !notMobile;
+  this.positioner = getElementsByClassName(this.root, POSITIONER_CLA)[0];
   this.onHideCallbacks = [];
-  this.isOpen          = false;
-  this.touching        = false;
-  this.touchTimer;
+  this.isOpen = false;
+  this.touching = false;
+  this.touchTimer = null;
 
   var _this = this;
 
@@ -147,7 +143,9 @@ SuperModal = function (rootElement, notMobile) {
     });
 
     addEventListener(document, 'scroll', function () {
-      if (!_this.isOpen) return;
+      if (!_this.isOpen) {
+        return;
+      }
       if (getPageScrollTop() < 0 && !_this.touching) {
         _this.touching = true;
         _this.setTouchTimer();
@@ -180,7 +178,8 @@ SuperModal.prototype.show = function () {
   addClass(this.root, MODAL_SHOW_CLA);
   if (this.isMobile) {
     this.root.style.height = getDocHeight() + 'px';
-    this.positioner.style.top = this.pageScrollTop + (window.innerHeight - this.positioner.offsetHeight) / 2 + 'px';
+    this.positioner.style.top = this.pageScrollTop +
+      (window.innerHeight - this.positioner.offsetHeight) / 2 + 'px';
   }
   this.isOpen = true;
 };
@@ -190,23 +189,28 @@ SuperModal.prototype.resetPageScrollTop = function () {
 };
 
 SuperModal.prototype.hide = function () {
+  var i;
   removeClass(this.root, MODAL_SHOW_CLA);
   removeClass(document.body, MODAL_BODY_SHOW_CLA);
   this.hideVirtualKeyboard();
   this.isOpen = false;
   this.clearTouchTimer();
-  for (var i = 0; i < this.onHideCallbacks.length; i++) {
+  for (i = 0; i < this.onHideCallbacks.length; i++) {
     this.onHideCallbacks[i]();
   }
 };
 
 SuperModal.prototype.hideVirtualKeyboard = function () {
-  if (!this.isMobile) return;
+  var i;
+  if (!this.isMobile) {
+    return;
+  }
   document.activeElement.blur();
   // Call slice to convert to array
   var inputs = _slice.call(this.positioner.getElementsByTagName('input'));
-  inputs = inputs.concat(_slice.call(this.positioner.getElementsByTagName('textarea')));
-  for (var i = 0; i < inputs.length; i++) {
+  inputs = inputs.concat(_slice.call(
+    this.positioner.getElementsByTagName('textarea')));
+  for (i = 0; i < inputs.length; i++) {
     inputs[i].blur();
   }
 };
