@@ -114,56 +114,54 @@ SuperModal = function (rootElement, notMobile) {
   this.touching = false;
   this.touchTimer = null;
 
-  var _this = this;
+  var self = this;
 
   var backdrop = getElementsByClassName(this.root, BACKDROP_CLA)[0];
   addEventListener(backdrop, 'click', function () {
-    _this.hide();
+    self.hide();
   });
 
   var closeBtn = getElementsByClassName(this.root, CLOSE_BTN_CLA)[0];
   addEventListener(closeBtn, 'click', function () {
-    _this.hide();
+    self.hide();
   });
 
   if (this.isMobile) {
     addEventListener(this.root, 'touchstart', function () {
-      _this.touching = true;
-      _this.clearTouchTimer();
+      self.touching = true;
+      self.clearTouchTimer();
     });
 
     addEventListener(this.root, 'touchend', function () {
-      // if (_this.touchTimer) return;
-      _this.setTouchTimer();
+      self.setTouchTimer();
     });
 
     addEventListener(this.root, 'touchcancel', function () {
-      // if (_this.touchTimer) return;
-      _this.setTouchTimer();
+      self.setTouchTimer();
     });
 
     addEventListener(document, 'scroll', function () {
-      if (!_this.isOpen) {
+      if (!self.isOpen) {
         return;
       }
-      if (getPageScrollTop() < 0 && !_this.touching) {
-        _this.touching = true;
-        _this.setTouchTimer();
+      if (getPageScrollTop() < 0 && !self.touching) {
+        self.touching = true;
+        self.setTouchTimer();
       }
-      if (getPageScrollTop() === 0 && !_this.touching) {
-        _this.resetPageScrollTop();
-        _this.hide();
+      if (getPageScrollTop() === 0 && !self.touching) {
+        self.resetPageScrollTop();
+        self.hide();
       }
     });
   }
 };
 
 SuperModal.prototype.setTouchTimer = function () {
-  var _this = this;
+  var self = this;
   clearTimeout(this.touchTimer);
   this.touchTimer = setTimeout(function () {
-    _this.touching = false;
-    _this.touchTimer = null;
+    self.touching = false;
+    self.touchTimer = null;
   }, 350);
 };
 
