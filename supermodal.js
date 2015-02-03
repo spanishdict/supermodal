@@ -104,7 +104,7 @@ getDocHeight = function () {
   );
 },
 
-Modal = function (rootElement, notMobile) {
+SuperModal = function (rootElement, notMobile) {
   if (notMobile) {
     addClass(document.documentElement, NOT_MOBILE_HTML_CLA);
   }
@@ -159,7 +159,7 @@ Modal = function (rootElement, notMobile) {
   }
 };
 
-Modal.prototype.setTouchTimer = function () {
+SuperModal.prototype.setTouchTimer = function () {
   var _this = this;
   clearTimeout(this.touchTimer);
   this.touchTimer = setTimeout(function () {
@@ -168,12 +168,12 @@ Modal.prototype.setTouchTimer = function () {
   }, 350);
 };
 
-Modal.prototype.clearTouchTimer = function () {
+SuperModal.prototype.clearTouchTimer = function () {
   clearTimeout(this.touchTimer);
   this.touchTimer = null;
 };
 
-Modal.prototype.show = function () {
+SuperModal.prototype.show = function () {
   this.pageScrollTop = getPageScrollTop();
   addClass(document.body, MODAL_BODY_SHOW_CLA);
   addClass(this.root, MODAL_SHOW_CLA);
@@ -184,11 +184,11 @@ Modal.prototype.show = function () {
   this.isOpen = true;
 };
 
-Modal.prototype.resetPageScrollTop = function () {
+SuperModal.prototype.resetPageScrollTop = function () {
   window.scrollTo(0, this.pageScrollTop);
 };
 
-Modal.prototype.hide = function () {
+SuperModal.prototype.hide = function () {
   removeClass(this.root, MODAL_SHOW_CLA);
   removeClass(document.body, MODAL_BODY_SHOW_CLA);
   this.hideVirtualKeyboard();
@@ -199,7 +199,7 @@ Modal.prototype.hide = function () {
   }
 };
 
-Modal.prototype.hideVirtualKeyboard = function () {
+SuperModal.prototype.hideVirtualKeyboard = function () {
   if (!this.isMobile) return;
   document.activeElement.blur();
   // Call slice to convert to array
@@ -210,8 +210,8 @@ Modal.prototype.hideVirtualKeyboard = function () {
   }
 };
 
-Modal.prototype.onHide = function (cb) {
+SuperModal.prototype.onHide = function (cb) {
   this.onHideCallbacks.push(cb);
 };
 
-module.exports = Modal;
+module.exports = SuperModal;
