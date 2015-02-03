@@ -11,6 +11,21 @@ NOT_MOBILE_HTML_CLA = 'supermodal-not-mobile',
 
 _slice = Array.prototype.slice,
 
+_extend = function(out) {
+  out = out || {};
+  var i, key;
+  for (i = 1; i < arguments.length; i++) {
+    if (arguments[i]) {
+      for (key in arguments[i]) {
+        if (arguments[i].hasOwnProperty(key)) {
+          out[key] = arguments[i][key];
+        }
+      }
+    }
+  }
+  return out;
+},
+
 trim = function (str) {
   return str.replace(TRIM_REGEX, '');
 },
@@ -101,13 +116,25 @@ getDocHeight = function () {
   );
 },
 
-SuperModal = function (rootElement, notMobile) {
-  if (notMobile) {
+DEFAULT_OPTS = {
+  isMobile: true
+},
+
+/**
+ * SuperModal constructor
+ * @param {HTMLElement} rootElement - the root element of the modal
+ * @param {dict} [opts]
+ * @param {bool} [opts.isMobile=true] - specify this modal behave in mobile
+ *                                    mode or not
+ */
+SuperModal = function (rootElement, opts) {
+  this.opts = _extend({}, DEFAULT_OPTS, opts);
+
+  if (!this.opts.isMobile) {
     addClass(document.documentElement, NOT_MOBILE_HTML_CLA);
   }
 
   this.root = rootElement;
-  this.isMobile = !notMobile;
   this.positioner = getElementsByClassName(this.root, POSITIONER_CLA)[0];
   this.onHideCallbacks = [];
   this.isOpen = false;
@@ -126,7 +153,7 @@ SuperModal = function (rootElement, notMobile) {
     self.hide();
   });
 
-  if (this.isMobile) {
+  if (this.opts.isMobile) {
     addEventListener(this.root, 'touchstart', function () {
       self.touching = true;
       self.clearTouchTimer();
@@ -174,7 +201,7 @@ SuperModal.prototype.show = function () {
   this.pageScrollTop = getPageScrollTop();
   addClass(document.body, MODAL_BODY_SHOW_CLA);
   addClass(this.root, MODAL_SHOW_CLA);
-  if (this.isMobile) {
+  if (this.opts.isMobile) {
     this.root.style.height = getDocHeight() + 'px';
     this.positioner.style.top = this.pageScrollTop +
       (window.innerHeight - this.positioner.offsetHeight) / 2 + 'px';
@@ -200,7 +227,7 @@ SuperModal.prototype.hide = function () {
 
 SuperModal.prototype.hideVirtualKeyboard = function () {
   var i;
-  if (!this.isMobile) {
+  if (!this.opts.isMobile) {
     return;
   }
   document.activeElement.blur();

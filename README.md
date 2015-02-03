@@ -5,6 +5,7 @@ A super modal UI.
 ## Markup
 
 ```html
+<!-- optional custom id -->
 <div id="the-modal" class="supermodal-root">
   <div class="supermodal-backdrop"></div>
   <div class="supermodal-positioner">
@@ -21,7 +22,11 @@ A super modal UI.
 ```
 
 ```javascript
-var modal = new Modal(document.getElementById('the-modal'), isNotMobile);
+// use `isMobile` option to specify the mode of modal
+// default to mobile mode
+var modal = new Modal(document.getElementById('the-modal'), {
+  isMobile: true // default value
+});
 
 modal.onHide(function () {
   alert('modal closed!');

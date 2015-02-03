@@ -59,7 +59,7 @@
 <script>
 var SuperModal = require('supermodal');
 
-var modal = new SuperModal(document.getElementById('the-modal'), false);
+var modal = new SuperModal(document.getElementById('the-modal'), {isMobile: false});
 
 modal.onHide(function () {
   alert('modal closed!');
