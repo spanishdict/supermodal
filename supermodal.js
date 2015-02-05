@@ -122,7 +122,7 @@ DEFAULT_OPTS = {
 /**
  * SuperModal constructor
  * @param {HTMLElement} rootElement - the root element of the modal
- * @param {dict} [opts]
+ * @param {JSON} [opts]
  * @param {bool} [opts.isMobile=true] - specify this modal behave in mobile
  *                                    mode or not
  */
@@ -197,13 +197,14 @@ SuperModal.prototype.clearTouchTimer = function () {
 };
 
 SuperModal.prototype.show = function () {
+  var marginTop;
   this.pageScrollTop = getPageScrollTop();
   addClass(document.body, MODAL_BODY_SHOW_CLA);
   addClass(this.root, MODAL_SHOW_CLA);
   if (this.opts.isMobile) {
     this.root.style.height = getDocHeight() + 'px';
-    this.positioner.style.top = this.pageScrollTop +
-      (window.innerHeight - this.positioner.offsetHeight) / 2 + 'px';
+    marginTop = (window.innerHeight - this.positioner.offsetHeight) / 2;
+    this.positioner.style.top = this.pageScrollTop + marginTop + 'px';
   }
   this.isOpen = true;
 };
@@ -232,8 +233,8 @@ SuperModal.prototype.hideVirtualKeyboard = function () {
   document.activeElement.blur();
   // Call slice to convert to array
   var inputs = _slice.call(this.positioner.getElementsByTagName('input'));
-  inputs = inputs.concat(_slice.call(
-    this.positioner.getElementsByTagName('textarea')));
+  var textareas = _slice.call(this.positioner.getElementsByTagName('textarea'));
+  inputs = inputs.concat(textareas);
   for (i = 0; i < inputs.length; i++) {
     inputs[i].blur();
   }

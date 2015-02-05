@@ -8,11 +8,11 @@
     "browserify": "browserify -r ./supermodal.js:supermodal > dist/supermodal.js",
     "html": "cp -v demo/index.html dist/index.html",
     "dist": "npm run scss && npm run browserify && npm run html",
-    "eslint": "eslint supermodal.js",
+    "style": "eslint supermodal.js",
     "watch:dist": "npm run dist && onchange 'supermodal.js' 'demo/*.html' 'scss/*.scss' -- npm run dist",
-    "watch:eslint": "npm run eslint & onchange 'supermodal.js' -- npm run eslint",
+    "watch:style": "npm run style & onchange 'supermodal.js' -- npm run style",
     "serve": "npm run dist && browser-sync start --server dist --files 'dist/*'",
-    "check": "npm run eslint"
+    "check": "npm run style"
   },
   "repository": {
     "type": "git",
