@@ -1,0 +1,85 @@
+// Mobile First
+// Assuming mobile device,
+// apply `.supermodal-not-mobile` to HTML only on desktop
+
+@mixin before-styles {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; // Magic: Adjusts for spacing
+}
+
+.supermodal-body-show { // Apply to Body
+  .supermodal-not-mobile & {
+    overflow: hidden;
+  }
+}
+
+.supermodal-root {
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  display: none;
+  position: absolute;
+
+  &.supermodal-show {
+    display: block;
+  }
+
+  .supermodal-not-mobile & {
+    position: fixed;
+    height: 100%;
+    white-space: nowrap;
+
+    &::before {
+      @include before-styles;
+    }
+
+    &:before { // IE8
+      @include before-styles;
+    }
+  }
+}
+
+.supermodal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  filter: alpha(opacity=50); // IE8
+  background-color: black;
+  opacity: 0.5;
+}
+
+.supermodal-positioner {
+  display: inline-block;
+  text-align: left; // Reset parent `text-align: center`
+  white-space: normal; // Reset parent `white-space: nowrap`
+  position: relative;
+
+  .supermodal-not-mobile & {
+    vertical-align: middle;
+  }
+}
+
+.supermodal-close {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 21px;
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 700;
+  color: black;
+  text-shadow: 0 1px 0 white;
+  filter: alpha(opacity=20);
+  opacity: 0.2;
+}

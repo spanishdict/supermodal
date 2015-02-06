@@ -1,0 +1,38 @@
+{
+  "name": "supermodal",
+  "version": "0.0.1",
+  "description": "A universal modal to remove the pain of modal on mobile.",
+  "main": "supermodal.js",
+  "scripts": {
+    "scss": "node-sass scss/main.scss dist/main.css",
+    "browserify": "browserify -r ./supermodal.js:supermodal > dist/supermodal.js",
+    "html": "cp -v demo/index.html dist/index.html",
+    "dist": "npm run scss && npm run browserify && npm run html",
+    "style": "eslint supermodal.js",
+    "watch:dist": "npm run dist && onchange 'supermodal.js' 'demo/*.html' 'scss/*.scss' -- npm run dist",
+    "watch:style": "npm run style & onchange 'supermodal.js' -- npm run style",
+    "serve": "npm run dist && browser-sync start --server dist --files 'dist/*'",
+    "check": "npm run style"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spanishdict/supermodal.git"
+  },
+  "keywords": [
+    "modal",
+    "mobile"
+  ],
+  "author": "Daiwei Lu <daiweilu123@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spanishdict/supermodal/issues"
+  },
+  "homepage": "https://github.com/spanishdict/supermodal",
+  "devDependencies": {
+    "browser-sync": "^2.0.0-rc1",
+    "browserify": "^8.1.1",
+    "eslint": "^0.13.0",
+    "node-sass": "^2.0.0-beta",
+    "onchange": "0.0.2"
+  }
+}
