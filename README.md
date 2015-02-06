@@ -2,7 +2,7 @@
 
 A super modal UI.
 
-## Markup
+## Usage
 
 ```html
 <!-- optional custom id -->
@@ -24,7 +24,7 @@ A super modal UI.
 ```javascript
 // use `isMobile` option to specify the mode of modal
 // default to mobile mode
-var modal = new Modal(document.getElementById('the-modal'), {
+var modal = new SuperModal(document.getElementById('the-modal'), {
   isMobile: true // default value
 });
 
@@ -39,4 +39,29 @@ modal.onHide(function () {
 document.getElementById('open-modal').addEventListener('click', function () {
   modal.show();
 });
+```
+
+## Universal Module Definition (UMD)
+
+SuperModal supports UMD module definition, which means it supports loading using RequireJS (AMD), Browserify (CommonJS), or global variable.
+
+- AMD:
+
+```js
+require('SuperModal', function (SuperModal) {
+  var modal = new SuperModal();
+});
+```
+
+- CommonJS:
+
+```js
+var SuperModal = require('SuperModal');
+var modal = new SuperModal();
+```
+
+- Global variable
+
+```js
+var modal = new SuperModal();
 ```

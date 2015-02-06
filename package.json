@@ -5,7 +5,7 @@
   "main": "supermodal.js",
   "scripts": {
     "scss": "node-sass scss/main.scss dist/main.css",
-    "browserify": "browserify -r ./supermodal.js:supermodal > dist/supermodal.js",
+    "browserify": "browserify -r ./supermodal.js:SuperModal -s SuperModal > dist/supermodal.js",
     "html": "cp -v demo/index.html dist/index.html",
     "dist": "npm run scss && npm run browserify && npm run html",
     "style": "eslint supermodal.js",
