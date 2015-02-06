@@ -1,4 +1,4 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.SuperModal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"SuperModal":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"supermodal":[function(require,module,exports){
 'use strict';
 
 var TRIM_REGEX = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
@@ -123,7 +123,7 @@ DEFAULT_OPTS = {
 /**
  * SuperModal constructor
  * @param {HTMLElement} rootElement - the root element of the modal
- * @param {JSON} [opts]
+ * @param {dict} [opts]
  * @param {bool} [opts.isMobile=true] - specify this modal behave in mobile
  *                                    mode or not
  */
@@ -198,14 +198,13 @@ SuperModal.prototype.clearTouchTimer = function () {
 };
 
 SuperModal.prototype.show = function () {
-  var marginTop;
   this.pageScrollTop = getPageScrollTop();
   addClass(document.body, MODAL_BODY_SHOW_CLA);
   addClass(this.root, MODAL_SHOW_CLA);
   if (this.opts.isMobile) {
     this.root.style.height = getDocHeight() + 'px';
-    marginTop = (window.innerHeight - this.positioner.offsetHeight) / 2;
-    this.positioner.style.top = this.pageScrollTop + marginTop + 'px';
+    this.positioner.style.top = this.pageScrollTop +
+      (window.innerHeight - this.positioner.offsetHeight) / 2 + 'px';
   }
   this.isOpen = true;
 };
@@ -234,8 +233,8 @@ SuperModal.prototype.hideVirtualKeyboard = function () {
   document.activeElement.blur();
   // Call slice to convert to array
   var inputs = _slice.call(this.positioner.getElementsByTagName('input'));
-  var textareas = _slice.call(this.positioner.getElementsByTagName('textarea'));
-  inputs = inputs.concat(textareas);
+  inputs = inputs.concat(_slice.call(
+    this.positioner.getElementsByTagName('textarea')));
   for (i = 0; i < inputs.length; i++) {
     inputs[i].blur();
   }
@@ -247,5 +246,4 @@ SuperModal.prototype.onHide = function (cb) {
 
 module.exports = SuperModal;
 
-},{}]},{},[])("SuperModal")
-});
+},{}]},{},[]);
