@@ -2,7 +2,7 @@
 
 A super modal UI.
 
-## Usage
+## Markup
 
 ```html
 <!-- optional custom id -->
@@ -39,29 +39,4 @@ modal.onHide(function () {
 document.getElementById('open-modal').addEventListener('click', function () {
   modal.show();
 });
-```
-
-## Universal Module Definition (UMD)
-
-SuperModal supports UMD module definition, which means it supports loading using RequireJS (AMD), Browserify (CommonJS), or global variable.
-
-- AMD:
-
-```js
-require('SuperModal', function (SuperModal) {
-  var modal = new SuperModal();
-});
-```
-
-- CommonJS:
-
-```js
-var SuperModal = require('SuperModal');
-var modal = new SuperModal();
-```
-
-- Global variable
-
-```js
-var modal = new SuperModal();
 ```
