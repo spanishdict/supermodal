@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var EventHelper = require('../lib/event');
 
 describe('EventHelper', function () {
@@ -7,11 +8,11 @@ describe('EventHelper', function () {
     });
 
     it('should attach event listener', function (done) {
-      EventHelper.listen($j('#sandbox')[0], 'click', function () {
+      EventHelper.listen($('#sandbox')[0], 'click', function () {
         done();
       });
 
-      $j('#sandbox').click();
+      $('#sandbox').click();
     });
   });
 });

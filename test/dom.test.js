@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var DOM = require('../lib/dom');
 
 describe('DOM', function () {
@@ -7,7 +8,7 @@ describe('DOM', function () {
     });
 
     it('should add class name to element', function () {
-      var $sandbox = $j('#sandbox');
+      var $sandbox = $('#sandbox');
 
       DOM.addClass($sandbox[0], 'test1');
       expect($sandbox.attr('class')).toBe('test1');
@@ -26,7 +27,7 @@ describe('DOM', function () {
     });
 
     it('should remove class name to element', function () {
-      var $sandbox = $j('#sandbox');
+      var $sandbox = $('#sandbox');
 
       DOM.removeClass($sandbox[0], 'test2');
       expect($sandbox.attr('class')).toBe('test1');
@@ -52,20 +53,20 @@ describe('DOM', function () {
 
     it('should find all elements under a parent element', function () {
       expect(
-        DOM.getElementsByClassName($j('#sandbox')[0], 'test1').length
+        DOM.getElementsByClassName($('#sandbox')[0], 'test1').length
       ).toBe(2);
     });
   });
 
   describe('getPageScrollTop', function () {
     it('should get page vertical scroll position', function () {
-      expect(DOM.getPageScrollTop()).toBe($j(document).scrollTop());
+      expect(DOM.getPageScrollTop()).toBe($(document).scrollTop());
     });
   });
 
   describe('getDocHeight', function () {
     it('should get page total height', function () {
-      expect(DOM.getDocHeight()).toBe($j(document).height());
+      expect(DOM.getDocHeight()).toBe($(document).height());
     });
   });
 });
