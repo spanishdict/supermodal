@@ -5,7 +5,7 @@ var browsers = process.env.TRAVIS ? ['PhantomJS'] : ['Chrome', 'Firefox', 'Safar
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine-jquery', 'browserify', 'jasmine'],
+    frameworks: ['browserify', 'mocha', 'expect', 'sinon'],
     files: [
       'test/test-setup.js',
       'test/supermodal-fixture.html',
@@ -13,6 +13,7 @@ module.exports = function(config) {
     ],
     exclude: [],
     preprocessors: {
+      'test/supermodal-fixture.html': ['html2js'],
       'test/**/*.js': ['browserify']
     },
     reporters: ['dots'],

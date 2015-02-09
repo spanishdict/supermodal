@@ -4,7 +4,11 @@ var EventHelper = require('../lib/event');
 describe('EventHelper', function () {
   describe('listen', function () {
     beforeEach(function () {
-      setFixtures(sandbox());
+      setFixtures('<div id="sandbox"></div>');
+    });
+
+    afterEach(function () {
+      cleanFixtures();
     });
 
     it('should attach event listener', function (done) {

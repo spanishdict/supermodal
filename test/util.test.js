@@ -10,7 +10,7 @@ describe('Util', function () {
         options: 'B'
       });
 
-      expect(result).toEqual({
+      expect(result).eql({
         type: 'person',
         options: 'B'
       });
@@ -20,7 +20,7 @@ describe('Util', function () {
   describe('trim', function () {
     it('should remove leading and trailing white spaces', function () {
       var result = Util.trim('  hello world  \n');
-      expect(result).toBe('hello world');
+      expect(result).eql('hello world');
     });
   });
 });

@@ -6,28 +6,32 @@ var SuperModal = require('../supermodal');
 
 describe('SuperModal', function () {
   beforeEach(function () {
-    loadFixtures('supermodal-fixture.html');
+    loadFixtures('test/supermodal-fixture.html');
+  });
+
+  afterEach(function () {
+    cleanFixtures();
   });
 
   describe('constructor', function () {
     it('should assign properties correctly', function () {
       var modal = new SuperModal($('#the-modal')[0]);
 
-      expect(modal.opts).toEqual({isMobile: true});
-      expect(modal.root).toBe($('#the-modal')[0]);
-      expect(modal.positioner).toBe($('#the-modal .supermodal-positioner')[0]);
-      expect(modal.onHideCallbacks).toEqual([]);
-      expect(modal.isOpen).toBe(false);
-      expect(modal.touching).toBe(false);
-      expect(modal.touchTimer).toBeNull(null);
+      expect(modal.opts).eql({isMobile: true});
+      expect(modal.root).equal($('#the-modal')[0]);
+      expect(modal.positioner).equal($('#the-modal .supermodal-positioner')[0]);
+      expect(modal.onHideCallbacks).eql([]);
+      expect(modal.isOpen).equal(false);
+      expect(modal.touching).equal(false);
+      expect(modal.touchTimer).equal(null);
     });
 
     it('should honor `isMobile` option and add class to HTML tag', function () {
       new SuperModal($('#the-modal')[0]);
-      expect($('html').hasClass('supermodal-not-mobile')).toBe(false);
+      expect($('html').hasClass('supermodal-not-mobile')).equal(false);
 
       new SuperModal($('#the-modal')[0], {isMobile: false});
-      expect($('html').hasClass('supermodal-not-mobile')).toBe(true);
+      expect($('html').hasClass('supermodal-not-mobile')).equal(true);
     });
 
     it('should attach event listeners', function () {
@@ -40,15 +44,19 @@ describe('SuperModal', function () {
         [document                               , 'scroll']
       ];
 
-      spyOn(EventHelper, 'listen').and.callFake(function(el, eventName, cb) {
+      var sandbox = sinon.sandbox.create();
+
+      sandbox.stub(EventHelper, 'listen', function(el, eventName, cb) {
         var args = argsArr.shift();
-        expect(el).toBe(args[0]);
-        expect(eventName).toBe(args[1]);
+        expect(el).equal(args[0]);
+        expect(eventName).equal(args[1]);
       });
 
       var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
 
-      expect(argsArr.length).toBe(0);
+      expect(argsArr.length).equal(0);
+
+      sandbox.restore();
     });
   });
 
@@ -63,8 +71,8 @@ describe('SuperModal', function () {
       modal.setTouchTimer();
 
       setTimeout(function () {
-        expect(modal.touching).toBe(false);
-        expect(modal.touchTimer).toBe(null);
+        expect(modal.touching).equal(false);
+        expect(modal.touchTimer).equal(null);
         done();
       }, 500);
     });
@@ -85,16 +93,16 @@ describe('SuperModal', function () {
     it('should remember page scroll top', function () {
       var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
 
-      expect($('body').hasClass('supermodal-body-show')).toBe(false);
-      expect($('#the-modal').hasClass('supermodal-show')).toBe(false);
-      expect(modal.pageScrollTop).toBeUndefined();
+      expect($('body').hasClass('supermodal-body-show')).equal(false);
+      expect($('#the-modal').hasClass('supermodal-show')).equal(false);
+      expect(modal.pageScrollTop).equal(undefined);
 
       modal.show();
 
-      expect($('body').hasClass('supermodal-body-show')).toBe(true);
-      expect($('#the-modal').hasClass('supermodal-show')).toBe(true);
-      expect($('#the-modal').css('height')).toMatch(/^\d+px$/); // TODO: more precise
-      expect(modal.pageScrollTop).toBe(0);
+      expect($('body').hasClass('supermodal-body-show')).equal(true);
+      expect($('#the-modal').hasClass('supermodal-show')).equal(true);
+      expect($('#the-modal').css('height')).match(/^\d+px$/); // TODO: more precise
+      expect(modal.pageScrollTop).equal(0);
     });
   });
 
@@ -109,13 +117,13 @@ describe('SuperModal', function () {
       var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
       modal.show();
 
-      expect($('body').hasClass('supermodal-body-show')).toBe(true);
-      expect($('#the-modal').hasClass('supermodal-show')).toBe(true);
+      expect($('body').hasClass('supermodal-body-show')).equal(true);
+      expect($('#the-modal').hasClass('supermodal-show')).equal(true);
 
       modal.hide();
 
-      expect($('body').hasClass('supermodal-body-show')).toBe(false);
-      expect($('#the-modal').hasClass('supermodal-show')).toBe(false);
+      expect($('body').hasClass('supermodal-body-show')).equal(false);
+      expect($('#the-modal').hasClass('supermodal-show')).equal(false);
     });
   });
 
@@ -128,24 +136,27 @@ describe('SuperModal', function () {
   describe('onHide', function () {
     it('should add onHide callbacks', function () {
       var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
-      expect(modal.onHideCallbacks.length).toBe(0);
+      expect(modal.onHideCallbacks.length).equal(0);
       modal.onHide(function () {});
       modal.onHide(function () {});
-      expect(modal.onHideCallbacks.length).toBe(2);
+      expect(modal.onHideCallbacks.length).equal(2);
     });
   });
 
-  it('should close when backdrop clicked', function () {
+  it.only('should close when backdrop clicked', function (done) {
     var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
     modal.show();
     $('#the-modal .supermodal-backdrop').click();
-    expect($('#the-modal').hasClass('supermodal-show')).toBe(false);
+    setTimeout(function () {
+      expect($('#the-modal').hasClass('supermodal-show')).equal(false);
+      done();
+    }, 100);
   });
 
   it('should close when close button clicked', function () {
     var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
     modal.show();
     $('#the-modal .supermodal-close').click();
-    expect($('#the-modal').hasClass('supermodal-show')).toBe(false);
+    expect($('#the-modal').hasClass('supermodal-show')).equal(false);
   });
 });
