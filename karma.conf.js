@@ -5,8 +5,9 @@ var browsers = process.env.TRAVIS ? ['PhantomJS'] : ['Chrome', 'Firefox', 'Safar
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['browserify', 'jasmine'],
+    frameworks: ['jasmine-jquery', 'browserify', 'jasmine'],
     files: [
+      'test/test-setup.js',
       'test/**/*.js'
     ],
     exclude: [],
