@@ -48,7 +48,7 @@ module.exports = {
   getElementsByClassName: (function () {
     if (document.getElementsByClassName) {
       return function (el, className) {
-        if (className === null && className === undefined) {
+        if (className == null) {
           className = el;
           el = document;
         }
@@ -56,7 +56,7 @@ module.exports = {
       };
     }
     return function (el, className) {
-      if (className === null && className === undefined) {
+      if (className == null) {
         className = el;
         el = document;
       }
@@ -173,30 +173,30 @@ SuperModal = function (rootElement, opts) {
   var self = this;
 
   var backdrop = getElementsByClassName(this.root, BACKDROP_CLA)[0];
-  listen(backdrop, 'click', function () {
+  EventHelper.listen(backdrop, 'click', function () {
     self.hide();
   });
 
   var closeBtn = getElementsByClassName(this.root, CLOSE_BTN_CLA)[0];
-  listen(closeBtn, 'click', function () {
+  EventHelper.listen(closeBtn, 'click', function () {
     self.hide();
   });
 
   if (this.opts.isMobile) {
-    listen(this.root, 'touchstart', function () {
+    EventHelper.listen(this.root, 'touchstart', function () {
       self.touching = true;
       self.clearTouchTimer();
     });
 
-    listen(this.root, 'touchend', function () {
+    EventHelper.listen(this.root, 'touchend', function () {
       self.setTouchTimer();
     });
 
-    listen(this.root, 'touchcancel', function () {
+    EventHelper.listen(this.root, 'touchcancel', function () {
       self.setTouchTimer();
     });
 
-    listen(document, 'scroll', function () {
+    EventHelper.listen(document, 'scroll', function () {
       if (!self.isOpen) {
         return;
       }
