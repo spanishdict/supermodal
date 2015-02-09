@@ -13,7 +13,6 @@ NOT_MOBILE_HTML_CLA = 'supermodal-not-mobile',
 
 _slice = Array.prototype.slice,
 _extend = Util.extend,
-listen = EventHelper.listen,
 addClass = DOM.addClass,
 removeClass = DOM.removeClass,
 getElementsByClassName = DOM.getElementsByClassName,
