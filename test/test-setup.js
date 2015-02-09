@@ -1,3 +1,3 @@
-// Use this file to provide an opportunity run config code.
+// Use this file to provide an opportunity to run config code.
 
 jasmine.getFixtures().fixturesPath = 'base/test';

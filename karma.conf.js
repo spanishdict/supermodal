@@ -8,6 +8,7 @@ module.exports = function(config) {
     frameworks: ['jasmine-jquery', 'browserify', 'jasmine'],
     files: [
       'test/test-setup.js',
+      'test/supermodal-fixture.html',
       'test/**/*.js'
     ],
     exclude: [],
