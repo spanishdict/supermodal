@@ -12,6 +12,7 @@
     "watch:dist": "npm run dist && onchange 'supermodal.js' 'demo/*.html' 'scss/*.scss' -- npm run dist",
     "watch:style": "npm run style & onchange 'supermodal.js' -- npm run style",
     "serve": "npm run dist && browser-sync start --server dist --files 'dist/*'",
+    "test": "npm run dist && karma start --single-run",
     "check": "npm run style"
   },
   "repository": {
@@ -32,6 +33,14 @@
     "browser-sync": "^2.0.0-rc1",
     "browserify": "^8.1.1",
     "eslint": "^0.13.0",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-cli": "0.0.4",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-safari-launcher": "^0.1.1",
     "node-sass": "^2.0.0-beta",
     "onchange": "0.0.2"
   }
