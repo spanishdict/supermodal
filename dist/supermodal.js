@@ -1,8 +1,135 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.SuperModal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"SuperModal":[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.SuperModal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var TRIM_REGEX = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
-MODAL_SHOW_CLA = 'supermodal-show',
+var Util = require('./util');
+var trim = Util.trim;
+
+module.exports = {
+  addClass: (function () {
+    if (document.documentElement.classList) {
+      return function (el, className) {
+        el.classList.add(className);
+      };
+    }
+    return function (el, className) {
+      var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
+
+      if (cur.indexOf(name) < 0) {
+        cur += className;
+      }
+
+      var finalValue = trim(cur);
+      if (el.className !== finalValue) {
+        el.className = finalValue;
+      }
+    };
+  })(),
+
+  removeClass: (function () {
+    if (document.documentElement.classList) {
+      return function (el, className) {
+        el.classList.remove(className);
+      };
+    }
+    return function (el, className) {
+      var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
+
+      while (cur.indexOf(name) > -1) {
+        cur = cur.replace(name, ' ');
+      }
+
+      var finalValue = trim(cur);
+      if (el.className !== finalValue) {
+        el.className = finalValue;
+      }
+    };
+  })(),
+
+  getElementsByClassName: (function () {
+    if (document.getElementsByClassName) {
+      return function (el, className) {
+        if (className === null && className === undefined) {
+          className = el;
+          el = document;
+        }
+        return el.getElementsByClassName(className);
+      };
+    }
+    return function (el, className) {
+      if (className === null && className === undefined) {
+        className = el;
+        el = document;
+      }
+      return el.querySelectorAll('.' + className);
+    };
+  })(),
+
+  getPageScrollTop: function () {
+    return ('pageYOffset' in window) ?
+      window.pageYOffset : document.documentElement.scrollTop;
+  },
+
+  getDocHeight: function () {
+    var d = document;
+    return Math.max(
+      d.body.scrollHeight, d.documentElement.scrollHeight,
+      d.body.offsetHeight, d.documentElement.offsetHeight,
+      d.body.clientHeight, d.documentElement.clientHeight
+    );
+  }
+};
+
+},{"./util":3}],2:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  listen: (function () {
+    if (document.addEventListener) {
+      return function (el, eventName, callback) {
+        el.addEventListener(eventName, callback, false);
+      };
+    }
+    return function (el, eventName, callback) {
+      el.attachEvent('on' + eventName, function () {
+        return callback.apply(el, arguments);
+      });
+    };
+  })()
+};
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+var TRIM_REGEX = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+
+module.exports = {
+  extend: function (out) {
+    out = out || {};
+    var i, key;
+    for (i = 1; i < arguments.length; i++) {
+      if (arguments[i]) {
+        for (key in arguments[i]) {
+          if (arguments[i].hasOwnProperty(key)) {
+            out[key] = arguments[i][key];
+          }
+        }
+      }
+    }
+    return out;
+  },
+  trim: function (str) {
+    return str.replace(TRIM_REGEX, '');
+  }
+};
+
+},{}],"SuperModal":[function(require,module,exports){
+'use strict';
+
+var Util = require('./lib/util');
+var DOM = require('./lib/dom');
+var EventHelper = require('./lib/event');
+
+var MODAL_SHOW_CLA = 'supermodal-show',
 MODAL_BODY_SHOW_CLA = 'supermodal-body-show',
 BACKDROP_CLA = 'supermodal-backdrop',
 POSITIONER_CLA = 'supermodal-positioner',
@@ -10,111 +137,13 @@ CLOSE_BTN_CLA = 'supermodal-close',
 NOT_MOBILE_HTML_CLA = 'supermodal-not-mobile',
 
 _slice = Array.prototype.slice,
-
-_extend = function(out) {
-  out = out || {};
-  var i, key;
-  for (i = 1; i < arguments.length; i++) {
-    if (arguments[i]) {
-      for (key in arguments[i]) {
-        if (arguments[i].hasOwnProperty(key)) {
-          out[key] = arguments[i][key];
-        }
-      }
-    }
-  }
-  return out;
-},
-
-trim = function (str) {
-  return str.replace(TRIM_REGEX, '');
-},
-
-addClass = (function () {
-  if (document.documentElement.classList) {
-    return function (el, className) {
-      el.classList.add(className);
-    };
-  }
-  return function (el, className) {
-    var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
-
-    if (cur.indexOf(name) < 0) {
-      cur += className;
-    }
-
-    var finalValue = trim(cur);
-    if (el.className !== finalValue) {
-      el.className = finalValue;
-    }
-  };
-})(),
-
-removeClass = (function () {
-  if (document.documentElement.classList) {
-    return function (el, className) {
-      el.classList.remove(className);
-    };
-  }
-  return function (el, className) {
-    var cur = (' ' + el.className + ' '), name = ' ' + className + ' ';
-
-    while (cur.indexOf(name) > -1) {
-      cur = cur.replace(name, ' ');
-    }
-
-    var finalValue = trim(cur);
-    if (el.className !== finalValue) {
-      el.className = finalValue;
-    }
-  };
-})(),
-
-getElementsByClassName = (function () {
-  if (document.getElementsByClassName) {
-    return function (el, className) {
-      if (className === null && className === undefined) {
-        className = el;
-        el = document;
-      }
-      return el.getElementsByClassName(className);
-    };
-  }
-  return function (el, className) {
-    if (className === null && className === undefined) {
-      className = el;
-      el = document;
-    }
-    return el.querySelectorAll('.' + className);
-  };
-})(),
-
-listen = (function () {
-  if (document.addEventListener) {
-    return function (el, eventName, callback) {
-      el.addEventListener(eventName, callback, false);
-    };
-  }
-  return function (el, eventName, callback) {
-    el.attachEvent('on' + eventName, function () {
-      return callback.apply(el, arguments);
-    });
-  };
-})(),
-
-getPageScrollTop = function () {
-  return ('pageYOffset' in window) ?
-    window.pageYOffset : document.documentElement.scrollTop;
-},
-
-getDocHeight = function () {
-  var d = document;
-  return Math.max(
-    d.body.scrollHeight, d.documentElement.scrollHeight,
-    d.body.offsetHeight, d.documentElement.offsetHeight,
-    d.body.clientHeight, d.documentElement.clientHeight
-  );
-},
+_extend = Util.extend,
+listen = EventHelper.listen,
+addClass = DOM.addClass,
+removeClass = DOM.removeClass,
+getElementsByClassName = DOM.getElementsByClassName,
+getPageScrollTop = DOM.getPageScrollTop,
+getDocHeight = DOM.getDocHeight,
 
 DEFAULT_OPTS = {
   isMobile: true
@@ -247,5 +276,5 @@ SuperModal.prototype.onHide = function (cb) {
 
 module.exports = SuperModal;
 
-},{}]},{},[])("SuperModal")
+},{"./lib/dom":1,"./lib/event":2,"./lib/util":3}]},{},[])("SuperModal")
 });

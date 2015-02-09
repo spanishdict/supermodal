@@ -5,13 +5,14 @@ var browsers = process.env.TRAVIS ? ['PhantomJS'] : ['Chrome', 'Firefox', 'Safar
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine'],
+    frameworks: ['browserify', 'jasmine'],
     files: [
-      'dist/supermodal.js',
       'test/**/*.js'
     ],
     exclude: [],
-    preprocessors: {},
+    preprocessors: {
+      'test/**/*.js': ['browserify']
+    },
     reporters: ['dots'],
     port: 9876,
     colors: true,
