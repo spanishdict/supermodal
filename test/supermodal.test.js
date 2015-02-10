@@ -113,7 +113,7 @@ describe('SuperModal', function () {
   });
 
   describe('hide', function () {
-    it('should', function () {
+    it('should hide remove class names', function () {
       var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
       modal.show();
 

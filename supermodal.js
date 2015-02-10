@@ -11,7 +11,6 @@ POSITIONER_CLA = 'supermodal-positioner',
 CLOSE_BTN_CLA = 'supermodal-close',
 NOT_MOBILE_HTML_CLA = 'supermodal-not-mobile',
 
-_slice = Array.prototype.slice,
 _extend = Util.extend,
 addClass = DOM.addClass,
 removeClass = DOM.removeClass,
@@ -101,13 +100,14 @@ SuperModal.prototype.clearTouchTimer = function () {
 };
 
 SuperModal.prototype.show = function () {
-  var marginTop;
+  var marginTop, windowHeight;
   this.pageScrollTop = getPageScrollTop();
   addClass(document.body, MODAL_BODY_SHOW_CLA);
   addClass(this.root, MODAL_SHOW_CLA);
   if (this.opts.isMobile) {
     this.root.style.height = getDocHeight() + 'px';
-    marginTop = (window.innerHeight - this.positioner.offsetHeight) / 2;
+    windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    marginTop = (windowHeight - this.positioner.offsetHeight) / 2;
     this.positioner.style.top = this.pageScrollTop + marginTop + 'px';
   }
   this.isOpen = true;
@@ -135,12 +135,13 @@ SuperModal.prototype.hideVirtualKeyboard = function () {
     return;
   }
   document.activeElement.blur();
-  // Call slice to convert to array
-  var inputs = _slice.call(this.positioner.getElementsByTagName('input'));
-  var textareas = _slice.call(this.positioner.getElementsByTagName('textarea'));
-  inputs = inputs.concat(textareas);
+  var inputs = this.positioner.getElementsByTagName('input');
   for (i = 0; i < inputs.length; i++) {
     inputs[i].blur();
+  }
+  var textareas = this.positioner.getElementsByTagName('textarea');
+  for (i = 0; i < textareas.length; i++) {
+    textareas[i].blur();
   }
 };
 

@@ -13,7 +13,7 @@
     "watch:style": "npm run style & onchange 'supermodal.js' 'lib/**/*.js' -- npm run style",
     "serve": "npm run dist && browser-sync start --server dist --files 'dist/*'",
     "test": "karma start --single-run",
-    "check": "npm run style"
+    "check": "npm run style && npm test"
   },
   "repository": {
     "type": "git",
