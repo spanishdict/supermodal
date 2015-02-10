@@ -1,5 +1,6 @@
 var $ = require('jquery');
 var EventHelper = require('../lib/event');
+console.log('DEBUG: ' + 'process.env.TRAVIS', process.env.TRAVIS);
 
 describe('EventHelper', function () {
   describe('listen', function () {
