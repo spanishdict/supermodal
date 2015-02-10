@@ -11,7 +11,8 @@ describe('EventHelper', function () {
       cleanFixtures();
     });
 
-    it.skip('should attach event listener', function (done) {
+    var doit = window.__env__['TRAVIS'] ? it.skip : it;
+    doit('should attach event listener', function (done) {
       EventHelper.listen($('#sandbox')[0], 'click', function () {
         done();
       });

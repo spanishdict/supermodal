@@ -143,7 +143,8 @@ describe('SuperModal', function () {
     });
   });
 
-  it.skip('should close when backdrop clicked', function (done) {
+  var doit = window.__env__['TRAVIS'] ? it.skip : it;
+  doit('should close when backdrop clicked', function (done) {
     var modal = new SuperModal($('#the-modal')[0], {isMobile: true});
     modal.show();
     $('#the-modal .supermodal-backdrop').click();

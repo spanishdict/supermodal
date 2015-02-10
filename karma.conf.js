@@ -14,8 +14,9 @@ module.exports = function(config) {
     exclude: [],
     preprocessors: {
       'test/supermodal-fixture.html': ['html2js'],
-      'test/**/*.js': ['browserify']
+      'test/**/*.js': ['browserify', 'env']
     },
+    envPreprocessor: ['TRAVIS'],
     reporters: ['dots'],
     port: 9876,
     colors: true,

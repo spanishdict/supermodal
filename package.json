@@ -38,6 +38,7 @@
     "karma-browserify": "3.0.1",
     "karma-chrome-launcher": "^0.1.7",
     "karma-cli": "^0.0.4",
+    "karma-env-preprocessor": "^0.1.1",
     "karma-expect": "^1.1.0",
     "karma-firefox-launcher": "^0.1.4",
     "karma-html2js-preprocessor": "^0.1.0",
