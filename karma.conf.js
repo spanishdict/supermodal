@@ -1,6 +1,6 @@
 'use strict';
 
-var browsers = process.env.TRAVIS ? ['PhantomJS'] : ['Chrome', 'Firefox', 'Safari'];
+var browsers = process.env.TRAVIS ? ['PhantomJS2'] : ['Chrome', 'Firefox', 'Safari'];
 
 module.exports = function(config) {
   config.set({
