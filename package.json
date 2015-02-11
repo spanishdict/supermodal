@@ -8,11 +8,12 @@
     "browserify": "browserify -r ./supermodal.js:SuperModal -s SuperModal > dist/supermodal.js",
     "html": "cp -v demo/index.html dist/index.html",
     "dist": "npm run scss && npm run browserify && npm run html",
-    "style": "eslint supermodal.js",
+    "style": "eslint supermodal.js lib/*.js",
     "watch:dist": "npm run dist && onchange 'supermodal.js' 'demo/*.html' 'scss/*.scss' -- npm run dist",
-    "watch:style": "npm run style & onchange 'supermodal.js' -- npm run style",
+    "watch:style": "npm run style & onchange 'supermodal.js' 'lib/**/*.js' -- npm run style",
     "serve": "npm run dist && browser-sync start --server dist --files 'dist/*'",
-    "check": "npm run style"
+    "test": "karma start --single-run",
+    "check": "npm run style && npm test"
   },
   "repository": {
     "type": "git",
@@ -30,9 +31,24 @@
   "homepage": "https://github.com/spanishdict/supermodal",
   "devDependencies": {
     "browser-sync": "^2.0.0-rc1",
-    "browserify": "^8.1.1",
+    "browserify": "8.1.1",
     "eslint": "^0.13.0",
+    "jquery": "^1.11.2",
+    "karma": "^0.12.31",
+    "karma-browserify": "3.0.1",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-cli": "^0.0.4",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-expect": "^1.1.0",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-html2js-preprocessor": "^0.1.0",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-sinon": "^1.0.4",
+    "mocha": "^2.1.0",
     "node-sass": "^2.0.0-beta",
-    "onchange": "0.0.2"
+    "onchange": "^0.0.2",
+    "sinon": "^1.12.2"
   }
 }
