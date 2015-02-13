@@ -18,6 +18,7 @@ describe('SuperModal', function () {
       var modal = new SuperModal($('#does-not-exist'));
 
       expect(modal).eql({"Error": "No modal element specified."});
+      expect(modal.show).equal(function(){});
       expect(modal.root).equal(undefined);
     });
 

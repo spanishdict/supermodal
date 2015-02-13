@@ -31,7 +31,7 @@ DEFAULT_OPTS = {
  */
 SuperModal = function (rootElement, opts) {
   if (rootElement == null) {
-    return {"Error": "No modal element specified."}
+    return {"Error": "No modal element specified.", "show": function(){}};
   }
 
   this.opts = _extend({}, DEFAULT_OPTS, opts);
