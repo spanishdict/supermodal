@@ -15,11 +15,13 @@ describe('SuperModal', function () {
 
   describe('constructor', function () {
     it('should fail smoothly', function () {
+      var error;
       try {
-        var modal = new SuperModal($('#does-not-exist'));
+        var modal = new SuperModal(null);
       } catch (err) {
-        expect(err).to.be.ok
+        error = err;
       }
+      expect(error).to.be.ok
     });
 
     it('should assign properties correctly', function () {
