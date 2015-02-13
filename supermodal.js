@@ -30,6 +30,10 @@ DEFAULT_OPTS = {
  *                                    mode or not
  */
 SuperModal = function (rootElement, opts) {
+  if (rootElement == null) {
+    return {"Error": "No modal element specified."}
+  }
+
   this.opts = _extend({}, DEFAULT_OPTS, opts);
 
   if (!this.opts.isMobile) {

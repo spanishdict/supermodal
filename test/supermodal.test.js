@@ -14,6 +14,13 @@ describe('SuperModal', function () {
   });
 
   describe('constructor', function () {
+    it('should fail smoothly', function () {
+      var modal = new SuperModal($('#does-not-exist'));
+
+      expect(modal).eql({"Error": "No modal element specified."});
+      expect(modal.root).equal(undefined);
+    });
+
     it('should assign properties correctly', function () {
       var modal = new SuperModal($('#the-modal')[0]);
 
