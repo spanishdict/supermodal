@@ -14,6 +14,16 @@ describe('SuperModal', function () {
   });
 
   describe('constructor', function () {
+    it('should fail smoothly', function () {
+      var error;
+      try {
+        var modal = new SuperModal(null);
+      } catch (err) {
+        error = err;
+      }
+      expect(error).to.be.ok
+    });
+
     it('should assign properties correctly', function () {
       var modal = new SuperModal($('#the-modal')[0]);
 
